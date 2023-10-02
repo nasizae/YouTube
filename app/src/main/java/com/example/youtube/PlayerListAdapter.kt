@@ -18,6 +18,7 @@ class PlayerListAdapter(private var playerList:ArrayList<PlayerListModel>):Adapt
 
     override fun onBindViewHolder(holder: PlayerListHolder, position: Int) {
         holder.bind(playerList.get(position))
+
     }
 
     inner class PlayerListHolder( var binding: ItemYoutubeListBinding):ViewHolder(binding.root) {
