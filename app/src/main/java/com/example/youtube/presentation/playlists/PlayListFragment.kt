@@ -65,6 +65,8 @@ class PlayListFragment : Fragment() {
                 binding.loading.visibility = View.VISIBLE
             } else {
                 binding.loading.visibility = View.GONE
+
+
             }
         }
     }
