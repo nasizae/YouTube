@@ -49,7 +49,6 @@ class PlayListFragment : Fragment() {
                     initLiveData()
                     binding.noInternet.root.visibility=View.GONE
                 }
-                Log.e("kiber", "${isInternetAvailable()}",)
             }
         }
     }
