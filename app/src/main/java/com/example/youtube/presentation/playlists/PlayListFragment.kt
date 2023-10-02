@@ -34,7 +34,24 @@ class PlayListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initLiveData()
+        initListeners()
+    }
 
+    private fun initListeners() {
+        if(isInternetAvailable()){
+            initLiveData()
+            binding.noInternet.root.visibility=View.GONE
+        }
+        else {
+            binding.noInternet.root.visibility=View.VISIBLE
+            binding.noInternet.btnTryAgain.setOnClickListener {
+                if(isInternetAvailable()){
+                    initLiveData()
+                    binding.noInternet.root.visibility=View.GONE
+                }
+                Log.e("kiber", "${isInternetAvailable()}",)
+            }
+        }
     }
 
     private fun initLiveData() {
@@ -65,10 +82,17 @@ class PlayListFragment : Fragment() {
                 binding.loading.visibility = View.VISIBLE
             } else {
                 binding.loading.visibility = View.GONE
-
-
             }
         }
+    }
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager =
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        val networkInfo = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(networkInfo)
+
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 }
 

@@ -8,8 +8,7 @@
 
     <include
         android:id="@+id/no_internet"
-        layout="@layout/no_internet_dialog"
-        />
+        layout="@layout/no_internet_dialog" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -29,5 +28,15 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_youtube_list" />
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_check"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="check internet"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

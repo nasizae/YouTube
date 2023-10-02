@@ -32,7 +32,7 @@ class PlayListAdapter():Adapter<PlayListAdapter.PlayerListHolder>() {
         fun bind(playerListModel:PlayListModel.Item){
             with(binding){
                     name.text=playerListModel.snippet.title
-                    tvCount.text=playerListModel.contentDetails.itemCount.toString()
+                    tvCount.text=playerListModel.contentDetails.itemCount.toString()+" video series"
                     Glide.with(image).load(playerListModel.snippet.thumbnails.default.url).into(image)
                 }
             }
