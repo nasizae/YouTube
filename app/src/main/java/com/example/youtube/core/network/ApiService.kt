@@ -9,9 +9,17 @@ import retrofit2.http.Query
 interface ApiService {
     @GET("playlists")
     fun getPlayLists(
-        @Query("part")part:String,
-        @Query("key")apiKey:String,
-        @Query("channelId")chenalId:String,
-        @Query("maxResults")maxResult:Int,
-    ):Call<PlayListModel>
+        @Query("part") part: String,
+        @Query("key") apiKey: String,
+        @Query("channelId") chenalId: String,
+        @Query("maxResults") maxResult: Int,
+    ): Call<PlayListModel>
+
+    @GET("playlistItem")
+    fun getPlaylistItem(
+        @Query("part") part: String,
+        @Query("key") apiKey: String,
+        @Query("channelId") chenalId: String,
+        @Query("maxResults") maxResult: Int,
+    )
 }
