@@ -37,7 +37,7 @@ class InfoVideoFragment : Fragment() {
 
     private fun initListeners() {
         binding.btnBack.setOnClickListener {
-            findNavController().navigate(R.id.playListItemFragment)
+            findNavController().navigateUp()
         }
         binding.btnDownload.setOnClickListener {
             val alertDialog= AlertDialog.Builder(requireContext())
