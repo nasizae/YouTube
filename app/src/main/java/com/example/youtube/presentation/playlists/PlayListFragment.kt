@@ -2,9 +2,6 @@ package com.example.youtube.presentation.playlists
 
 import IsOnline
 import android.annotation.SuppressLint
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,21 +11,15 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.example.youtube.R
-import com.example.youtube.core.network.RemoteDataSource
-import com.example.youtube.core.network.RetrofitClient
 import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.databinding.FragmentPlayListBinding
-import com.slottica.reviewfueatures.youtube57_3.domain.repository.Repository
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListFragment : Fragment() {
     private lateinit var binding: FragmentPlayListBinding
-    private val retrofitClient = RetrofitClient().createApiService()
-    private val remoteDataSource = RemoteDataSource(retrofitClient)
-    private val repository=Repository(remoteDataSource)
-    private val playerListViewModel = PlayListVIewModel(repository)
+    private val playerListViewModel : PlayListVIewModel by viewModel()
     private val adapter = PlayListAdapter(this::onClickItem)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.databinding.ItemPlayListItemBinding
 
-class PlayListItemAdapter : Adapter<PlayListItemAdapter.PlayListItemHolder>() {
+class PlayListItemAdapter(private val onClickItem: (playlistItem: PlayListModel.Item) -> Unit) : Adapter<PlayListItemAdapter.PlayListItemHolder>() {
 
     private val _list = mutableListOf<PlayListModel.Item>()
     private val list: List<PlayListModel.Item> get() = _list
@@ -37,8 +37,9 @@ class PlayListItemAdapter : Adapter<PlayListItemAdapter.PlayListItemHolder>() {
                     tvName.text=playListItem.snippet.title
                     Glide.with(imgVideo).load(playListItem.snippet.thumbnails.default.url).into(imgVideo)
                 }
-                Log.e("ololo", "bind: $playListItem", )
+                itemView.setOnClickListener {onClickItem(playListItem)}
             }
+
 
     }
 }

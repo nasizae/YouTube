@@ -14,4 +14,8 @@ class Repository(private val remoteDataSource: RemoteDataSource) {
     suspend fun getPlaylistItems(playlistId: String): Result<PlayListModel> {
         return remoteDataSource.getPlaylistItems(playlistId)
     }
+
+    suspend fun getVideo(videoId:String): Result<PlayListModel> {
+        return remoteDataSource.getVideo(videoId)
+    }
 }

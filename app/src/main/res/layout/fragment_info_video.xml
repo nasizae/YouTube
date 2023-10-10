@@ -70,5 +70,12 @@
         android:layout_marginHorizontal="12dp"
         android:textColor="@color/black"
         android:fontFamily="@font/noto_sans"/>
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="#FF0000"
+        android:visibility="gone" />
 
 </LinearLayout>

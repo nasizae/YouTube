@@ -8,24 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import com.example.youtube.R
+import com.example.youtube.core.di.viewModelModule
 import com.example.youtube.core.network.RemoteDataSource
-import com.example.youtube.core.network.RetrofitClient
 import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.databinding.FragmentPlayListItemBinding
 import com.slottica.reviewfueatures.youtube57_3.domain.repository.Repository
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListItemFragment : Fragment() {
 
     private lateinit var binding: FragmentPlayListItemBinding
-    private val retrofitClient = RetrofitClient().createApiService()
-    private val remoteDataSource = RemoteDataSource(retrofitClient)
-    private val repository = Repository(remoteDataSource)
-    private val playerListItemViewModel = PlayListItemViewModel(repository)
+    private val playerListItemViewModel : PlayListItemViewModel by viewModel()
 
-    private var adapter = PlayListItemAdapter()
+    private var adapter = PlayListItemAdapter(this::onClickItem)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -104,4 +106,13 @@ class PlayListItemFragment : Fragment() {
 
         }
     }
+
+    private fun onClickItem(playlistItem: PlayListModel.Item) {
+        setFragmentResult(
+            "key2",
+            bundleOf("k3" to playlistItem)
+        )
+        findNavController().navigate(R.id.infoVideoFragment)
+    }
+
 }
