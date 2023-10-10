@@ -34,6 +34,7 @@ class InfoVideoFragment : Fragment() {
         initLiveData()
         getVideo()
     }
+
     private fun initListeners() {
         binding.btnBack.setOnClickListener {
             findNavController().navigate(R.id.playListItemFragment)
@@ -73,7 +74,7 @@ class InfoVideoFragment : Fragment() {
 
     private fun getVideo() {
         setFragmentResultListener("key2") { _, bundle ->
-            bundle.getSerializable("key3")
+            bundle.getSerializable("k3")
                 ?.let { item ->
                     val _item = item as PlayListModel.Item
                     initView(_item.contentDetails.videoId)
