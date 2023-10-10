@@ -72,7 +72,7 @@ class PlayListItemFragment : Fragment() {
     }
     private fun getData(playListItem: List<PlayListModel.Item>){
         adapter.addData(playListItem)
-        binding.rvVideo.adapter = adapter
+        binding.rvVideo.adapter= adapter
     }
 
     private fun initGetResultListener() {
