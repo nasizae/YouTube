@@ -15,4 +15,9 @@
         android:name="com.example.youtube.presentation.playListItem.PlayListItemFragment"
         android:label="fragment_play_list_item"
         tools:layout="@layout/fragment_play_list_item" />
+    <fragment
+        android:id="@+id/infoVideoFragment"
+        android:name="com.example.youtube.presentation.videoDetails.InfoVideoFragment"
+        android:label="fragment_info_video"
+        tools:layout="@layout/fragment_info_video" />
 </navigation>
