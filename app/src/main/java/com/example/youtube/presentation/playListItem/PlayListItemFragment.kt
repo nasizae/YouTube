@@ -70,9 +70,10 @@ class PlayListItemFragment : Fragment() {
             Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun getData(playListItem: List<PlayListModel.Item>){
+
+    private fun getData(playListItem: List<PlayListModel.Item>) {
         adapter.addData(playListItem)
-        binding.rvVideo.adapter= adapter
+        binding.rvVideo.adapter = adapter
     }
 
     private fun initGetResultListener() {
@@ -82,7 +83,7 @@ class PlayListItemFragment : Fragment() {
                     val _item = item as PlayListModel.Item
                     CordinatorLayout(_item)
                     initView(_item.id)
-                    Log.e("ololo", "initGetResultListener: $_item", )
+                    Log.e("ololo", "initGetResultListener: $_item")
                 }
         }
 

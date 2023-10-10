@@ -4,32 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp">
-            <TextView
-                android:id="@+id/btn_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_arrow_back_"
-                android:text="back"
-                android:gravity="center"
-                android:textColor="#FF0000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_arrow_back_"
+            android:gravity="center"
+            android:text="back"
+            android:textColor="#FF0000"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Playlist"
             android:textColor="#FF0000"
             android:textSize="26sp"
-            android:textStyle="bold"
-          android:layout_gravity="center"
-            />
+            android:textStyle="bold" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -77,6 +77,7 @@
                         android:text="desc"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
+
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/btn_play"
                         android:layout_width="wrap_content"
@@ -87,9 +88,8 @@
                         android:backgroundTint="#FF0000"
                         android:elevation="10dp"
                         android:src="@drawable/ic_play"
-                        app:shapeAppearance="@drawable/bg_fab"
                         android:theme="@style/Theme.Material3.Dark"
-                        />
+                        app:shapeAppearance="@drawable/bg_fab" />
                 </LinearLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -124,8 +124,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:elevation="10dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_play_list_item"
-                    />
+                    tools:listitem="@layout/item_play_list_item" />
 
             </LinearLayout>
 
