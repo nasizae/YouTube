@@ -18,7 +18,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class InfoVideoFragment : Fragment() {
 
     private lateinit var binding: FragmentInfoVideoBinding
-
     private val infoVideoViewModel :InfoVideoViewModel by viewModel()
 
     override fun onCreateView(

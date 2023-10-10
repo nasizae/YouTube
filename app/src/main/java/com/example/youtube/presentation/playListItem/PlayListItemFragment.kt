@@ -2,6 +2,7 @@ package com.example.youtube.presentation.playListItem
 
 import IsOnline
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,8 +26,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class PlayListItemFragment : Fragment() {
 
     private lateinit var binding: FragmentPlayListItemBinding
-    private val playerListItemViewModel : PlayListItemViewModel by viewModel()
-
+    private val playerListItemViewModel: PlayListItemViewModel by viewModel()
+    override fun getContext(): Context? {
+        return super.getContext()
+    }
     private var adapter = PlayListItemAdapter(this::onClickItem)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +75,8 @@ class PlayListItemFragment : Fragment() {
             Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun getData(playListItem: List<PlayListModel.Item>){
+
+    private fun getData(playListItem: List<PlayListModel.Item>) {
         adapter.addData(playListItem)
         binding.rvVideo.adapter = adapter
     }
@@ -84,7 +88,7 @@ class PlayListItemFragment : Fragment() {
                     val _item = item as PlayListModel.Item
                     CordinatorLayout(_item)
                     initView(_item.id)
-                    Log.e("ololo", "initGetResultListener: $_item", )
+                    Log.e("ololo", "initGetResultListener: $_item")
                 }
         }
 
