@@ -1,5 +1,6 @@
 package com.example.youtube.presentation.playlists
 
+import IsOnline
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
@@ -10,18 +11,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.example.youtube.R
+import com.example.youtube.core.network.RemoteDataSource
 import com.example.youtube.core.network.RetrofitClient
-import com.example.youtube.core.utils.Status
+import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.databinding.FragmentPlayListBinding
 import com.slottica.reviewfueatures.youtube57_3.domain.repository.Repository
 
 class PlayListFragment : Fragment() {
     private lateinit var binding: FragmentPlayListBinding
-    val playerListViewModel = PlayListVIewModel(Repository(RetrofitClient().createApiService()))
-    private val adapter = PlayListAdapter()
+    private val retrofitClient = RetrofitClient().createApiService()
+    private val remoteDataSource = RemoteDataSource(retrofitClient)
+    private val repository=Repository(remoteDataSource)
+    private val playerListViewModel = PlayListVIewModel(repository)
+    private val adapter = PlayListAdapter(this::onClickItem)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -35,63 +43,47 @@ class PlayListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initLiveData()
         initListeners()
+        initView()
+    }
+
+    private fun initView() {
+        playerListViewModel.getPlaylists()
     }
 
     private fun initListeners() {
-        if(isInternetAvailable()){
-            initLiveData()
-            binding.noInternet.root.visibility=View.GONE
-        }
-        else {
-            binding.noInternet.root.visibility=View.VISIBLE
+        IsOnline(requireContext()).observe(viewLifecycleOwner){isConect->
+            if (!isConect){
+                binding.noInternet.root.visibility=View.VISIBLE
+            }
             binding.noInternet.btnTryAgain.setOnClickListener {
-                if(isInternetAvailable()){
-                    initLiveData()
+                if (isConect){
                     binding.noInternet.root.visibility=View.GONE
+                    initLiveData()
                 }
             }
         }
     }
-
     private fun initLiveData() {
-        playerListViewModel.getPlaylists().observe(viewLifecycleOwner) { resource ->
-            when (resource.status) {
-                Status.SUCCESS -> {
-                    resource.data?.let { adapter.addData(it.items) }
-                    binding.rvYoutubeList.adapter = adapter
-                    playerListViewModel.loading.value = false
-                }
-
-                Status.ERROR -> {
-                    if (resource.data == null) {
-                        Toast.makeText(requireContext(), "данные не пришли", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                    playerListViewModel.loading.value = false
-                }
-
-                Status.LOADING -> {
-                    playerListViewModel.loading.value = true
-                }
+        playerListViewModel.playlists.observe(viewLifecycleOwner){
+            adapter.addData(it.items)
+            binding.rvYoutubeList.adapter = adapter
+        }
+        playerListViewModel.loading.observe(viewLifecycleOwner){loading->
+            if (loading){
+                binding.loading.visibility=View.VISIBLE
+            }
+            else{
+                binding.loading.visibility=View.GONE
             }
         }
-
-        playerListViewModel.loading.observe(requireActivity()) {
-            if (it) {
-                binding.loading.visibility = View.VISIBLE
-            } else {
-                binding.loading.visibility = View.GONE
-            }
+        playerListViewModel.error.observe(viewLifecycleOwner){
+            Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun isInternetAvailable(): Boolean {
-        val connectivityManager =
-            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
-        val networkInfo = connectivityManager.activeNetwork
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(networkInfo)
-
-        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+    private fun onClickItem(playListModel: PlayListModel.Item){
+        setFragmentResult("key1", bundleOf("key" to playListModel))
+        findNavController().navigate(R.id.playListItemFragment)
+        Log.e("ololo", "onClickItem: $playListModel", )
     }
 }
 

@@ -1,19 +1,21 @@
 package com.example.youtube.data.model
 
- data class PlayListModel(
+import java.io.Serializable
+
+data class PlayListModel(
     val etag: String,
     val items: List<Item>,
     val kind: String,
     val nextPageToken: String,
     val pageInfo: PageInfo
-) {
+):Serializable {
      data class Item(
         val contentDetails: ContentDetails,
         val etag: String,
         val id: String,
         val kind: String,
         val snippet: Snippet
-    ) {
+    ) :Serializable{
          data class ContentDetails(
             val itemCount: Int
         )
