@@ -29,8 +29,12 @@
             android:gravity="center"/>
     </androidx.appcompat.widget.Toolbar>
     <ImageView
+        android:id="@+id/img_video"
         android:layout_width="match_parent"
-        android:layout_height="240dp"/>
+        android:layout_height="240dp"
+        android:src="@drawable/image6"
+        android:scaleType="centerCrop"
+        />
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
@@ -39,6 +43,7 @@
         android:layout_marginHorizontal="20dp"
         android:textColor="@color/black"
         android:textStyle="bold"
+        android:layout_marginTop="12dp"
         android:fontFamily="@font/fjalla_one"
         android:textSize="18sp"/>
     <com.google.android.material.button.MaterialButton
