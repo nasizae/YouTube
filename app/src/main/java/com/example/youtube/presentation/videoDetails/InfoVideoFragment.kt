@@ -64,6 +64,7 @@ class InfoVideoFragment : Fragment() {
         binding.tvTitle.text = infoVideo.first().snippet.title
         binding.tvDesc.text = infoVideo.first().snippet.description
         Glide.with(binding.imgVideo).load(infoVideo.first().snippet.thumbnails.standard.url).into(binding.imgVideo)
+
     }
 
 
