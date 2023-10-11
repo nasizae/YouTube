@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide
 import com.example.youtube.R
 import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.databinding.FragmentInfoVideoBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class InfoVideoFragment : Fragment() {
@@ -63,7 +65,13 @@ class InfoVideoFragment : Fragment() {
     private fun setView(infoVideo: List<PlayListModel.Item>) {
         binding.tvTitle.text = infoVideo.first().snippet.title
         binding.tvDesc.text = infoVideo.first().snippet.description
-        Glide.with(binding.imgVideo).load(infoVideo.first().snippet.thumbnails.standard.url).into(binding.imgVideo)
+        lifecycle.addObserver(binding.videoPlayer)
+        binding.videoPlayer.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                super.onReady(youTubePlayer)
+                youTubePlayer.loadVideo(infoVideo.first().id, 0f)
+            }
+        })
 
     }
 
