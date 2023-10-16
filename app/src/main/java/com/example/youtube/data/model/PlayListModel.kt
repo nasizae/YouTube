@@ -10,11 +10,11 @@ data class PlayListModel(
     val pageInfo: PageInfo
 ):Serializable {
      data class Item(
-        val contentDetails: ContentDetails,
-        val etag: String,
-        val id: String,
-        val kind: String,
-        val snippet: Snippet
+         val contentDetails: ContentDetails,
+         val etag: String,
+         var id: String,
+         val kind: String,
+         val snippet: Snippet
     ) :Serializable{
          data class ContentDetails(
             val itemCount: Int,

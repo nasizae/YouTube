@@ -6,13 +6,14 @@ import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.presentation.utils.Constants
 
 class RemoteDataSource(private val apiService: ApiService):BaseDataSource()  {
-    suspend fun getPlaylists(): Result<PlayListModel> {
+    suspend fun getPlaylists( pageToken:String): Result<PlayListModel> {
             return getResult {
                 apiService.getPlayLists(
                     part = Constants.PART,
                     channelId = Constants.CHANNEL_ID,
                     apiKey = BuildConfig.API_KEY,
-                    maxResult = 22,
+                    maxResult = 10,
+                    pageToken =pageToken
                 )
             }
         }

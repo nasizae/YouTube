@@ -11,16 +11,21 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.youtube.R
 import com.example.youtube.data.model.PlayListModel
 import com.example.youtube.databinding.FragmentPlayListBinding
+import com.example.youtube.presentation.playListItem.pagingLoadState.PagingLoadStateAdapter
+import com.example.youtube.presentation.utils.UserComporator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListFragment : Fragment() {
     private lateinit var binding: FragmentPlayListBinding
     private val playerListViewModel : PlayListVIewModel by viewModel()
-    private val adapter = PlayListAdapter(this::onClickItem)
+    private val adapter = PlayListAdapter(UserComporator,this::onClickItem, resourcesProvider = this)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -28,7 +33,6 @@ class PlayListFragment : Fragment() {
         binding = FragmentPlayListBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     @SuppressLint("ResourceType")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +42,7 @@ class PlayListFragment : Fragment() {
     }
 
     private fun initView() {
-        playerListViewModel.getPlaylists()
+        binding.rvYoutubeList.adapter=adapter
     }
 
     private fun initListeners() {
@@ -55,9 +59,19 @@ class PlayListFragment : Fragment() {
         }
     }
     private fun initLiveData() {
-        playerListViewModel.playlists.observe(viewLifecycleOwner){
-            adapter.addData(it.items)
-            binding.rvYoutubeList.adapter = adapter
+        playerListViewModel.getPagingPlaylists().observe(viewLifecycleOwner){
+
+            binding.rvYoutubeList.adapter=adapter.withLoadStateHeaderAndFooter(
+                header = PagingLoadStateAdapter(),
+                footer = PagingLoadStateAdapter()
+            )
+
+            playerListViewModel.viewModelScope.launch (Dispatchers.IO){
+                adapter.submitData(
+                    lifecycle=lifecycle,it
+                )
+            }
+
         }
         playerListViewModel.loading.observe(viewLifecycleOwner){loading->
             if (loading){
